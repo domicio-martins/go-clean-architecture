@@ -18,6 +18,6 @@ func New(user user.manager, wallet wallet.Manager) *usecase {
 	}
 }
 
-func (transfer *usecase) Credit(payer , payee *user.User, wallet *wallet.Manager) error {
+func (transfer *usecase) Credit(payer , payee *user.User, amount float64, wallet *wallet.Manager) error {
 	//TODO fazer a logica da transferencia
 }

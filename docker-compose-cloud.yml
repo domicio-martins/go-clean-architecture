@@ -1,0 +1,12 @@
+version: '3.2'
+
+services:
+  app:
+    image: ${REPOSITORY_URI}/go-clean-architecture:${DOCKER_TAG}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      cache_from:
+        - ${REPOSITORY_URI}/go-clean-architecture:${DOCKER_TAG}
+      args:
+        - APP_STAGE=${APP_STAGE}

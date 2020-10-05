@@ -11,16 +11,16 @@ import (
 	"github.com/eminetto/clean-architecture-go-v2/api/presenter"
 
 	"github.com/eminetto/clean-architecture-go-v2/domain/entity"
-	"github.com/eminetto/clean-architecture-go-v2/domain/entity/book"
+	"github.com/eminetto/clean-architecture-go-v2/domain/entity/wallet"
 
 	"github.com/codegangsta/negroni"
 	"github.com/gorilla/mux"
 )
 
-func listBooks(manager book.Manager) http.Handler {
+func listWallets(manager wallet.Manager) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		errorMessage := "Error reading books"
-		var data []*book.Book
+		errorMessage := "Error reading wallets"
+		var data []*wallet.Wallet
 		var err error
 		title := r.URL.Query().Get("title")
 		switch {
@@ -41,9 +41,9 @@ func listBooks(manager book.Manager) http.Handler {
 			w.Write([]byte(errorMessage))
 			return
 		}
-		var toJ []*presenter.Book
+		var toJ []*presenter.Wallet
 		for _, d := range data {
-			toJ = append(toJ, &presenter.Book{
+			toJ = append(toJ, &presenter.Wallet{
 				ID:       d.ID,
 				Title:    d.Title,
 				Author:   d.Author,
@@ -58,9 +58,9 @@ func listBooks(manager book.Manager) http.Handler {
 	})
 }
 
-func createBook(manager book.Manager) http.Handler {
+func createWallet(manager wallet.Manager) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		errorMessage := "Error adding book"
+		errorMessage := "Error adding wallet"
 		var input struct {
 			Title    string `json:"title"`
 			Author   string `json:"author"`
@@ -74,7 +74,7 @@ func createBook(manager book.Manager) http.Handler {
 			w.Write([]byte(errorMessage))
 			return
 		}
-		b := &book.Book{
+		b := &wallet.Wallet{
 			ID:        entity.NewID(),
 			Title:     input.Title,
 			Author:    input.Author,
@@ -89,7 +89,7 @@ func createBook(manager book.Manager) http.Handler {
 			w.Write([]byte(errorMessage))
 			return
 		}
-		toJ := &presenter.Book{
+		toJ := &presenter.Wallet{
 			ID:       b.ID,
 			Title:    b.Title,
 			Author:   b.Author,
@@ -107,9 +107,9 @@ func createBook(manager book.Manager) http.Handler {
 	})
 }
 
-func getBook(manager book.Manager) http.Handler {
+func getWallet(manager wallet.Manager) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		errorMessage := "Error reading book"
+		errorMessage := "Error reading wallet"
 		vars := mux.Vars(r)
 		id, err := entity.StringToID(vars["id"])
 		if err != nil {
@@ -129,7 +129,7 @@ func getBook(manager book.Manager) http.Handler {
 			w.Write([]byte(errorMessage))
 			return
 		}
-		toJ := &presenter.Book{
+		toJ := &presenter.Wallet{
 			ID:       data.ID,
 			Title:    data.Title,
 			Author:   data.Author,
@@ -143,9 +143,9 @@ func getBook(manager book.Manager) http.Handler {
 	})
 }
 
-func deleteBook(manager book.Manager) http.Handler {
+func deleteWallet(manager wallet.Manager) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		errorMessage := "Error removing bookmark"
+		errorMessage := "Error removing walletmark"
 		vars := mux.Vars(r)
 		id, err := entity.StringToID(vars["id"])
 		if err != nil {
@@ -162,21 +162,21 @@ func deleteBook(manager book.Manager) http.Handler {
 	})
 }
 
-//MakeBookHandlers make url handlers
-func MakeBookHandlers(r *mux.Router, n negroni.Negroni, manager book.Manager) {
-	r.Handle("/v1/book", n.With(
-		negroni.Wrap(listBooks(manager)),
-	)).Methods("GET", "OPTIONS").Name("listBooks")
+//MakeWalletHandlers make url handlers
+func MakeWalletHandlers(r *mux.Router, n negroni.Negroni, manager wallet.Manager) {
+	r.Handle("/v1/wallet", n.With(
+		negroni.Wrap(listWallets(manager)),
+	)).Methods("GET", "OPTIONS").Name("listWallets")
 
-	r.Handle("/v1/book", n.With(
-		negroni.Wrap(createBook(manager)),
-	)).Methods("POST", "OPTIONS").Name("createBook")
+	r.Handle("/v1/wallet", n.With(
+		negroni.Wrap(createWallet(manager)),
+	)).Methods("POST", "OPTIONS").Name("createWallet")
 
-	r.Handle("/v1/book/{id}", n.With(
-		negroni.Wrap(getBook(manager)),
-	)).Methods("GET", "OPTIONS").Name("getBook")
+	r.Handle("/v1/wallet/{id}", n.With(
+		negroni.Wrap(getWallet(manager)),
+	)).Methods("GET", "OPTIONS").Name("getWallet")
 
-	r.Handle("/v1/book/{id}", n.With(
-		negroni.Wrap(deleteBook(manager)),
-	)).Methods("DELETE", "OPTIONS").Name("deleteBook")
+	r.Handle("/v1/wallet/{id}", n.With(
+		negroni.Wrap(deleteWallet(manager)),
+	)).Methods("DELETE", "OPTIONS").Name("deleteWallet")
 }

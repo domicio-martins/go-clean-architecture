@@ -1,0 +1,38 @@
+version: '3.2'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api.go-clean-architecture.dev
+    env_file: .env.sample
+    environment:
+      - GO_CLEAN_ARCHITECTURE_MONGO_ADDRESS=mongodb://mongodb_gocleanarchitecture:27017
+    ports:
+      - 9001:9000
+  mongo:
+    image: mongo:latest
+    container_name: mongodb_gocleanarchitecture
+    environment:
+      - MONGO_DATA_DIR=/data/db
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - 27019:27017
+  mongo-admin:
+    restart: always
+    image: mongo-express:latest
+    container_name: mongo-admin_gocleanarchitecture
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    ports:
+      - 8083:8081
+volumes:
+  mongodb_data:
+    external: false
+networks:
+  default:
+    external:
+      name: bubble

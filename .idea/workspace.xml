@@ -20,7 +20,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="559df0b6-2a15-4aec-a350-0ed0b54f8964" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/handler/transaction.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/handler/transaction.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/handler/wallet.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/handler/wallet.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/api/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/domain/usecase/transfer/usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/domain/usecase/transfer/usecase.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +78,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="696" y="372" key="#Go_Modules" timestamp="1601846961317">
@@ -84,6 +89,10 @@
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
     <state x="721" y="222" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1601848727072" />
+    <state x="2511" y="320" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1601902746955">
+      <screen x="1792" y="23" width="1920" height="977" />
+    </state>
+    <state x="2511" y="320" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1792.1097/1792.23.1920.977@1792.23.1920.977" timestamp="1601902746955" />
     <state x="795" y="400" key="EnvironmentVariablesDialog" timestamp="1601846960022">
       <screen x="0" y="23" width="1792" height="1017" />
     </state>

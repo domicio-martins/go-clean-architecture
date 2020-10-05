@@ -9,20 +9,20 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/eminetto/clean-architecture-go-v2/pkg/password"
+	"github.com/domicio-martins/go-clean-architecture/pkg/password"
 
-	"github.com/eminetto/clean-architecture-go-v2/domain/usecase/loan"
+	"github.com/domicio-martins/go-clean-architecture/domain/usecase/transfer"
 
-	"github.com/eminetto/clean-architecture-go-v2/domain/entity/user"
+	"github.com/domicio-martins/go-clean-architecture/domain/entity/user"
 
-	"github.com/eminetto/clean-architecture-go-v2/domain/entity/book"
+	"github.com/domicio-martins/go-clean-architecture/domain/entity/wallet"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"github.com/codegangsta/negroni"
-	"github.com/eminetto/clean-architecture-go-v2/api/handler"
-	"github.com/eminetto/clean-architecture-go-v2/api/middleware"
-	"github.com/eminetto/clean-architecture-go-v2/config"
-	"github.com/eminetto/clean-architecture-go-v2/pkg/metric"
+	"github.com/domicio-martins/go-clean-architecture/api/handler"
+	"github.com/domicio-martins/go-clean-architecture/api/middleware"
+	"github.com/domicio-martins/go-clean-architecture/config"
+	"github.com/domicio-martins/go-clean-architecture/pkg/metric"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/context"
 	"github.com/gorilla/mux"
@@ -37,13 +37,13 @@ func main() {
 	}
 	defer db.Close()
 
-	bookRepo := book.NewMySQLRepository(db)
-	bookManager := book.NewManager(bookRepo)
+	walletRepo := wallet.NewMySQLRepository(db)
+	walletManager := wallet.NewManager(walletRepo)
 
 	userRepo := user.NewMySQLRepoRepository(db)
 	userManager := user.NewManager(userRepo, password.NewService())
 
-	loanUseCase := loan.NewUseCase(userManager, bookManager)
+	transferUseCase := transfer.NewUseCase(userManager, walletManager)
 
 	metricService, err := metric.NewPrometheusService()
 	if err != nil {
@@ -56,14 +56,14 @@ func main() {
 		negroni.HandlerFunc(middleware.Metrics(metricService)),
 		negroni.NewLogger(),
 	)
-	//book
-	handler.MakeBookHandlers(r, *n, bookManager)
+	//wallet
+	handler.MakeWalletHandlers(r, *n, walletManager)
 
 	//user
 	handler.MakeUserHandlers(r, *n, userManager)
 
-	//loan
-	handler.MakeLoanHandlers(r, *n, bookManager, userManager, loanUseCase)
+	//transfer
+	handler.MakeTransferHandlers(r, *n, walletManager, userManager, transferUseCase)
 
 	http.Handle("/", r)
 	http.Handle("/metrics", promhttp.Handler())
